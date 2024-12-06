@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accessibilityFeedbackType="feedbackAllMask"
+    android:accessibilityFlags="flagReportViewIds"
+    android:accessibilityEventTypes="typeWindowContentChanged"
+    android:canPerformGestures="true"
+    android:packageNames="com.instagram.android"
+    android:canRetrieveWindowContent="true"
+    />
