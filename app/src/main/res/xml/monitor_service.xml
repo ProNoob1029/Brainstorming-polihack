@@ -4,6 +4,8 @@
     android:accessibilityFlags="flagReportViewIds"
     android:accessibilityEventTypes="typeWindowContentChanged"
     android:canPerformGestures="true"
-    android:packageNames="com.instagram.android"
+
     android:canRetrieveWindowContent="true"
     />
+
+<!--    android:packageNames="com.instagram.android"-->
