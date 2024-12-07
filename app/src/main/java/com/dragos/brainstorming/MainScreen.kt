@@ -30,7 +30,7 @@ fun MainScreen(
     appList: List<AppInfo>,
     goodAppClick: (AppInfo) -> Unit,
     badAppClick: (AppInfo) -> Unit,
-    removeClick: (AppInfo) -> Unit,
+    removeClick: (AppInfo) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,

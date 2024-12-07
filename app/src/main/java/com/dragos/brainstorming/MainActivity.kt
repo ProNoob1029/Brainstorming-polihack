@@ -69,19 +69,21 @@ class MainActivity : ComponentActivity()  {
                         goodAppList,
                         badAppList,
                         packages,
-                        goodAppClick = { app ->
-                            if (!goodAppList.contains(app)) {
-                                goodAppList.add(app)
+                        goodAppClick = {
+                            if(!goodAppList.contains(it) && !badAppList.contains(it))
+                            {
+                                goodAppList.add(it)
                             }
                         },
-                        badAppClick = { app ->
-                            if (!badAppList.contains(app)) {
-                                badAppList.add(app)
+                        badAppClick = {
+                            if(!badAppList.contains(it) && !goodAppList.contains(it))
+                            {
+                                badAppList.add(it)
                             }
                         },
-                        removeClick = { app ->
-                            goodAppList.remove(app)
-                            badAppList.remove(app)
+                        removeClick = {
+                            goodAppList.remove(it)
+                            badAppList.remove(it)
                         }
                     )
                 }
