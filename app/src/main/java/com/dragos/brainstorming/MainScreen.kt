@@ -17,10 +17,34 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
+
+
+@Composable
+fun MainScreen(
+    modifier: Modifier = Modifier,
+    viewModel: MainViewModel = viewModel()
+) {
+    val goodAppList by viewModel.goodAppList.collectAsStateWithLifecycle()
+    val badAppList by viewModel.badAppList.collectAsStateWithLifecycle()
+    val appList by viewModel.appList.collectAsStateWithLifecycle()
+
+    MainScreen(
+        modifier = modifier,
+        goodAppList = goodAppList,
+        badAppList = badAppList,
+        appList = appList,
+        goodAppClick = viewModel::goodAppClick,
+        badAppClick = viewModel::badAppClick,
+        removeClick = viewModel::removeAppClick
+    )
+}
 
 @Composable
 fun MainScreen(
@@ -47,7 +71,7 @@ fun MainScreen(
                     .padding(vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "${it.appName}: ${it.appTime}")
+                Text(text = "${it.appName}: ${it.appTime / 1000 / 60}")
                 Spacer(Modifier.weight(1f))
                 IconButton(
                     onClick = {
@@ -60,7 +84,7 @@ fun MainScreen(
                     modifier = Modifier
                         .size(60.dp)
                         .fillMaxSize(),
-                    painter = rememberDrawablePainter(it.appIcon),
+                    painter = rememberDrawablePainter(MainApplication.packageManager.getApplicationIcon(it.packageName)),
                     contentDescription = ""
                 )
             }
@@ -77,7 +101,7 @@ fun MainScreen(
                     .padding(vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "${it.appName}: ${it.appTime}")
+                Text(text = "${it.appName}: ${it.appTime / 1000 / 60}")
                 Spacer(Modifier.weight(1f))
                 IconButton(
                     onClick = {
@@ -90,7 +114,7 @@ fun MainScreen(
                     modifier = Modifier
                         .size(60.dp)
                         .fillMaxSize(),
-                    painter = rememberDrawablePainter(it.appIcon),
+                    painter = rememberDrawablePainter(MainApplication.packageManager.getApplicationIcon(it.packageName)),
                     contentDescription = ""
                 )
             }
@@ -107,7 +131,7 @@ fun MainScreen(
                     .padding(vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "${it.appName}: ${it.appTime}")
+                Text(text = "${it.appName}: ${it.appTime / 1000 / 60}")
                 Spacer(Modifier.weight(1f))
                 IconButton(
                     onClick = {
@@ -127,7 +151,7 @@ fun MainScreen(
                     modifier = Modifier
                         .size(60.dp)
                         .fillMaxSize(),
-                    painter = rememberDrawablePainter(it.appIcon),
+                    painter = rememberDrawablePainter(MainApplication.packageManager.getApplicationIcon(it.packageName)),
                     contentDescription = ""
                 )
             }

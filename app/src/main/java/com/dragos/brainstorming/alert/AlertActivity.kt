@@ -1,13 +1,11 @@
-package com.dragos.brainstorming
+package com.dragos.brainstorming.alert
 
 import android.app.KeyguardManager
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -25,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import com.dragos.brainstorming.R
 import com.dragos.brainstorming.ui.theme.BrainstormingTheme
 
 class AlertActivity : ComponentActivity() {
@@ -100,20 +99,17 @@ class AlertActivity : ComponentActivity() {
     }
 
     private fun manageLockScreen() {
-        window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
+        /*window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
                 WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON or
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
                 WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY or
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1)
-        {
-            setShowWhenLocked(true)
-            setTurnScreenOn(true)
-            val keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
-            keyguardManager.requestDismissKeyguard(this, null)
-            keyguardManager.inKeyguardRestrictedInputMode()
-        }
+        )*/
+        setShowWhenLocked(true)
+        setTurnScreenOn(true)
+        val keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+        keyguardManager.requestDismissKeyguard(this, null)
+        //keyguardManager.inKeyguardRestrictedInputMode()
     }
 }

@@ -1,11 +1,9 @@
 package com.dragos.brainstorming
 
 import android.Manifest
-import android.app.usage.UsageStatsManager
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -18,7 +16,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
-import com.dragos.brainstorming.MonitorService.Companion.getDailyStats
+import com.dragos.brainstorming.monitor.getDailyStats
 import com.dragos.brainstorming.ui.theme.BrainstormingTheme
 
 class MainActivity : ComponentActivity()  {
@@ -26,30 +24,7 @@ class MainActivity : ComponentActivity()  {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val granted = ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.QUERY_ALL_PACKAGES
-        ) == PackageManager.PERMISSION_GRANTED
-
-        Log.d("MyApp", "granted: $granted")
-
-        val usageStatsManager = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
-        val dailyStats = getDailyStats(usageStatsManager)
-
-        val pm = packageManager
-
-        val intent = Intent(Intent.ACTION_MAIN, null)
-        intent.addCategory(Intent.CATEGORY_LAUNCHER)
-        val packages = pm.queryIntentActivities(intent, 0).map { rezolveInfo ->
-            AppInfo(
-                appTime = (dailyStats.firstOrNull { it.packageName == rezolveInfo.activityInfo.packageName }?.totalTime ?: 0) / 1000 / 60,
-                appName = rezolveInfo.loadLabel(packageManager).toString(),
-                packageName = rezolveInfo.activityInfo.packageName,
-                appIcon = rezolveInfo.loadIcon(packageManager)
-            )
-        }.sortedBy { it.appName }
-
-
+        checkPermission()
 
         setContent {
             val goodAppList = remember {
@@ -63,33 +38,25 @@ class MainActivity : ComponentActivity()  {
             BrainstormingTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MainScreen(
-                        modifier = Modifier
-                            .padding(innerPadding)
-                            .fillMaxSize(),
-                        goodAppList,
-                        badAppList,
-                        packages,
-                        goodAppClick = {
-                            if(!goodAppList.contains(it) && !badAppList.contains(it))
-                            {
-                                goodAppList.add(it)
-                            }
-                        },
-                        badAppClick = {
-                            if(!badAppList.contains(it) && !goodAppList.contains(it))
-                            {
-                                badAppList.add(it)
-                            }
-                        },
-                        removeClick = {
-                            goodAppList.remove(it)
-                            badAppList.remove(it)
-                        }
+                        modifier = Modifier.padding(innerPadding)
                     )
                 }
             }
         }
 
+    }
+
+    private fun checkPermission() {
+        val granted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.QUERY_ALL_PACKAGES
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            true
+        }
+
+        Log.d("MyApp", "granted: $granted")
     }
 }
 
@@ -97,5 +64,4 @@ data class AppInfo(
     val appTime: Long,
     val appName: String,
     val packageName: String,
-    val appIcon: Drawable?
 )
