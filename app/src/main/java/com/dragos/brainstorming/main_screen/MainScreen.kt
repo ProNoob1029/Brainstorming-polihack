@@ -1,4 +1,4 @@
-package com.dragos.brainstorming
+package com.dragos.brainstorming.main_screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.dragos.brainstorming.MainApplication
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 
 
@@ -58,7 +59,7 @@ fun MainScreen(
 ) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(16.dp)
+        contentPadding = PaddingValues(16.dp),
     ) {
         item {
             Text("Good Apps")

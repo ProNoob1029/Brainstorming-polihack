@@ -1,4 +1,4 @@
-package com.dragos.brainstorming
+package com.dragos.brainstorming.main_screen
 
 import android.Manifest
 import android.content.pm.PackageManager
