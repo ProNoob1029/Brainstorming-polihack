@@ -13,6 +13,9 @@ interface AppDao {
     @Query("SELECT * FROM badapp")
     fun getBadApps(): List<BadApp>
 
+    @Query("Select * FROM setlimit")
+    fun getSetLimit(): List<SetLimit>
+
     @Insert
     fun insertGoodApp(app: GoodApp)
 
@@ -24,4 +27,12 @@ interface AppDao {
 
     @Delete
     fun deleteBadApp(app: BadApp)
+
+    @Insert
+    fun insertSetLimit(app: SetLimit)
+
+    @Delete
+    fun deleteSetLimit(app: SetLimit)
+
+
 }

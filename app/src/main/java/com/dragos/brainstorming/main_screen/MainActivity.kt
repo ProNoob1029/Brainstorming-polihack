@@ -28,6 +28,9 @@ class MainActivity : ComponentActivity()  {
                     MainScreen(
                         modifier = Modifier.padding(innerPadding)
                     )
+                    /*MyLimit(
+                        modifier = Modifier.padding((innerPadding))
+                    )*/
                 }
             }
         }
