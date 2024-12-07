@@ -16,25 +16,37 @@ class MainViewModel : ViewModel() {
     fun goodAppClick(app: AppInfo) {
         goodAppList.update { list ->
             if (list.contains(app).not())
-                list.plus(app)
+                (list + app).sortedBy { it.appName }
             else
                 list
+        }
+        appList.update { list ->
+            list - app
         }
     }
     fun badAppClick(app: AppInfo) {
         badAppList.update { list ->
             if (list.contains(app).not())
-                list.plus(app)
+                (list + app).sortedBy { it.appName }
             else
                 list
+        }
+        appList.update { list ->
+            list - app
         }
     }
     fun removeAppClick(app: AppInfo) {
         badAppList.update { list ->
-            list.minus(app)
+            list - app
         }
         goodAppList.update { list ->
-            list.minus(app)
+            list - app
+        }
+        appList.update { list ->
+            if (list.contains(app).not())
+                (list + app).sortedBy { it.appName }
+            else
+                list
         }
     }
 

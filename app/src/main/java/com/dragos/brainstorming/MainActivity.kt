@@ -1,7 +1,6 @@
 package com.dragos.brainstorming
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -12,11 +11,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
-import com.dragos.brainstorming.monitor.getDailyStats
 import com.dragos.brainstorming.ui.theme.BrainstormingTheme
 
 class MainActivity : ComponentActivity()  {
@@ -27,14 +23,6 @@ class MainActivity : ComponentActivity()  {
         checkPermission()
 
         setContent {
-            val goodAppList = remember {
-                mutableStateListOf<AppInfo>()
-            }
-
-            val badAppList = remember {
-                mutableStateListOf<AppInfo>()
-            }
-
             BrainstormingTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MainScreen(
@@ -60,8 +48,3 @@ class MainActivity : ComponentActivity()  {
     }
 }
 
-data class AppInfo(
-    val appTime: Long,
-    val appName: String,
-    val packageName: String,
-)
