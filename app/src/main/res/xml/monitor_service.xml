@@ -4,7 +4,6 @@
     android:accessibilityFlags="flagReportViewIds"
     android:accessibilityEventTypes="typeWindowContentChanged"
     android:canPerformGestures="true"
-
     android:canRetrieveWindowContent="true"
     />
 
