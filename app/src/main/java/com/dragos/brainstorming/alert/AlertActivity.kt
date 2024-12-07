@@ -49,7 +49,7 @@ class AlertActivity : ComponentActivity() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = "NU MAI STA PE TELEFON!!!",
+                            text = "NU MAI STA PE ",
                             style = MaterialTheme.typography.headlineLarge.copy(
                                 fontWeight = FontWeight.Black
                             )

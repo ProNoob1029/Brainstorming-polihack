@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
-import com.dragos.brainstorming.island.Island
 import com.dragos.brainstorming.ui.theme.BrainstormingTheme
 
 class MainActivity : ComponentActivity()  {
@@ -26,7 +25,12 @@ class MainActivity : ComponentActivity()  {
         setContent {
             BrainstormingTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Island(modifier = Modifier.padding(innerPadding))
+                    MainScreen(
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                    /*MyLimit(
+                        modifier = Modifier.padding((innerPadding))
+                    )*/
                 }
             }
         }
