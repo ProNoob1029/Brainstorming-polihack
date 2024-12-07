@@ -19,14 +19,12 @@ import java.time.ZonedDateTime
 class MonitorService: AccessibilityService() {
     private var firstEvent = true
 
-    private val appPackageName = "org.mozilla.firefox"
-
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
         if (event.packageName == appPackageName) {
             if (!firstEvent) return
             firstEvent = false
 
-            val stat = getDailyStats().first { it.packageName == appPackageName }
+            val stat = getDailyStats(usageStatsManager).first { it.packageName == appPackageName }
 
             Log.d("Current App", "insta usage: ${stat.totalTime / (1000 * 60)}")
 
@@ -35,7 +33,7 @@ class MonitorService: AccessibilityService() {
 
             Handler(Looper.getMainLooper()).postDelayed({
                 startActivity(intent)
-            }, 5000)
+            }, 2000)
         } else {
             firstEvent = true
         }
@@ -55,10 +53,12 @@ class MonitorService: AccessibilityService() {
     companion object {
         lateinit var usageStatsManager: UsageStatsManager
 
+        val appPackageName = "com.instagram.android"
+
         /**
          * Returns the stats for the [date] (defaults to today)
          */
-        fun getDailyStats(date: LocalDate = LocalDate.now()): List<Stat> {
+        fun getDailyStats(usageManager: UsageStatsManager, date: LocalDate = LocalDate.now()): List<Stat> {
             // The timezones we'll need
             val utc = ZoneId.of("UTC")
             val defaultZone = ZoneId.systemDefault()
@@ -72,7 +72,7 @@ class MonitorService: AccessibilityService() {
             val sortedEvents = mutableMapOf<String, MutableList<UsageEvents.Event>>()
 
             // Query the list of events that has happened within that time frame
-            val systemEvents = usageStatsManager.queryEvents(start, end)
+            val systemEvents = usageManager.queryEvents(start, end)
             while (systemEvents.hasNextEvent()) {
                 val event = UsageEvents.Event()
                 systemEvents.getNextEvent(event)

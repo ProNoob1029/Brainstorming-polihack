@@ -1,6 +1,8 @@
 package com.dragos.brainstorming
 
 import android.Manifest
+import android.app.usage.UsageStatsManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
@@ -14,10 +16,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
+import com.dragos.brainstorming.MonitorService.Companion.getDailyStats
 import com.dragos.brainstorming.ui.theme.BrainstormingTheme
 
-
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity()  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -29,16 +31,19 @@ class MainActivity : ComponentActivity() {
 
         Log.d("MyApp", "granted: $granted")
 
+        val usageStatsManager = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+        val dailyStats = getDailyStats(usageStatsManager)
+
         val pm = packageManager
 
         val intent = Intent(Intent.ACTION_MAIN, null)
         intent.addCategory(Intent.CATEGORY_LAUNCHER)
-
-        val packages = pm.queryIntentActivities(intent, 0).map {
+        val packages = pm.queryIntentActivities(intent, 0).map { rezolveInfo ->
             AppInfo(
-                appName = it.loadLabel(packageManager).toString(),
-                packageName = it.activityInfo.packageName,
-                appIcon = it.loadIcon(packageManager)
+                appTime = (dailyStats.firstOrNull { it.packageName == rezolveInfo.activityInfo.packageName }?.totalTime ?: 0) / 1000 / 60,
+                appName = rezolveInfo.loadLabel(packageManager).toString(),
+                packageName = rezolveInfo.activityInfo.packageName,
+                appIcon = rezolveInfo.loadIcon(packageManager)
             )
         }.sortedBy { it.appName }
 
@@ -59,6 +64,7 @@ class MainActivity : ComponentActivity() {
 }
 
 data class AppInfo(
+    val appTime: Long,
     val appName: String,
     val packageName: String,
     val appIcon: Drawable?

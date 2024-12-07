@@ -50,7 +50,7 @@ class AlertActivity : ComponentActivity() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = "JOS LABA!!!",
+                            text = "NU MAI STA PE TELEFON!!!",
                             style = MaterialTheme.typography.headlineLarge.copy(
                                 fontWeight = FontWeight.Black
                             )
