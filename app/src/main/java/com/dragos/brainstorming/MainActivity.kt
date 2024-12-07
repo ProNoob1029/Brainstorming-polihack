@@ -14,6 +14,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import com.dragos.brainstorming.MonitorService.Companion.getDailyStats
@@ -47,14 +49,32 @@ class MainActivity : ComponentActivity()  {
             )
         }.sortedBy { it.appName }
 
+
+
         setContent {
+            val goodAppList = remember {
+                mutableStateListOf<AppInfo>()
+            }
+
+            val badAppList = remember {
+                mutableStateListOf<AppInfo>()
+            }
+
             BrainstormingTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MainScreen(
                         modifier = Modifier
                             .padding(innerPadding)
                             .fillMaxSize(),
-                        packages
+                        goodAppList,
+                        badAppList,
+                        packages,
+                        goodAppClick = {
+                            goodAppList.add(it)
+                        },
+                        badAppClick = {
+                            badAppList.add(it)
+                        }
                     )
                 }
             }
