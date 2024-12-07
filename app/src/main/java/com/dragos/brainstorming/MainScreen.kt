@@ -29,7 +29,8 @@ fun MainScreen(
     badAppList: List<AppInfo>,
     appList: List<AppInfo>,
     goodAppClick: (AppInfo) -> Unit,
-    badAppClick: (AppInfo) -> Unit
+    badAppClick: (AppInfo) -> Unit,
+    removeClick: (AppInfo) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
@@ -48,6 +49,13 @@ fun MainScreen(
             ) {
                 Text(text = "${it.appName}: ${it.appTime}")
                 Spacer(Modifier.weight(1f))
+                IconButton(
+                    onClick = {
+                        removeClick(it)
+                    }
+                ) {
+                    Icon(Icons.Default.Lock, "lock")
+                }
                 Image(
                     modifier = Modifier
                         .size(60.dp)
@@ -71,6 +79,13 @@ fun MainScreen(
             ) {
                 Text(text = "${it.appName}: ${it.appTime}")
                 Spacer(Modifier.weight(1f))
+                IconButton(
+                    onClick = {
+                        removeClick(it)
+                    }
+                ) {
+                    Icon(Icons.Default.Lock, "lock")
+                }
                 Image(
                     modifier = Modifier
                         .size(60.dp)
