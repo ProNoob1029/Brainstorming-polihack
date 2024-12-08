@@ -4,15 +4,19 @@ import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,59 +30,41 @@ fun HomeScreen(
     navToLimits: () -> Unit,
     navToIsland: () -> Unit,
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(vertical = 100.dp)
-        ,
-        horizontalAlignment = Alignment.CenterHorizontally,
-
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopCenter
     ) {
-        Surface(
-            onClick = navToIsland,
-            modifier = Modifier
-                .fillMaxWidth(),
+        Column(
+            modifier = modifier
+                .width(IntrinsicSize.Max)
+                .padding(vertical = 100.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
 
-        ) {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            )
-            {
+            ) {
+            OutlinedButton(
+                onClick = navToIsland,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text(
                     text = "Island",
                     style = MaterialTheme.typography.headlineLarge
                 )
             }
-        }
-        Spacer(Modifier.height(10.dp))
-        Surface(
-            onClick = navToGoodBadApp,
-                    modifier = Modifier
-                    .fillMaxWidth(),
-        ) {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            )
-            {
+            Spacer(Modifier.height(10.dp))
+            OutlinedButton(
+                onClick = navToGoodBadApp,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text(
                     text = "Manage healthy apps",
                     style = MaterialTheme.typography.headlineLarge
                 )
             }
-        }
-        Spacer(Modifier.height(10.dp))
-        Surface(
-            onClick = navToLimits,
-            modifier = Modifier
-                .fillMaxWidth(),
-        ) {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            )
-            {
+            Spacer(Modifier.height(10.dp))
+            OutlinedButton(
+                onClick = navToLimits,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text(
                     text = "Manage time limits",
                     style = MaterialTheme.typography.headlineLarge
