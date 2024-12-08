@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Habit Heaven</string>
+    <string name="app_name">Habit Haven</string>
     <string name="accessibility_service_label">Monitor service</string>
     <string name="accessibility_service_description">Service for monitoring active apps</string>
 </resources>
