@@ -16,6 +16,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.android.filament.utils.Float3
 import com.google.android.filament.utils.Manipulator
 import io.github.sceneview.Scene
 import io.github.sceneview.animation.Transition.animateRotation
@@ -23,6 +26,7 @@ import io.github.sceneview.gesture.orbitHomePosition
 import io.github.sceneview.gesture.targetPosition
 import io.github.sceneview.math.Position
 import io.github.sceneview.math.Rotation
+import io.github.sceneview.math.toPosition
 import io.github.sceneview.node.ModelNode
 import io.github.sceneview.node.PlaneNode
 import io.github.sceneview.rememberCameraNode
@@ -35,7 +39,12 @@ import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit.MILLISECONDS
 
 @Composable
-fun IslandScreen(modifier: Modifier = Modifier) {
+fun IslandScreen(
+    modifier: Modifier = Modifier,
+    viewModel: IslandViewModel = viewModel()
+) {
+    val treePos by viewModel.treeLocation.collectAsStateWithLifecycle()
+
     Box(
         modifier = modifier.fillMaxSize()
     ) {
@@ -52,7 +61,7 @@ fun IslandScreen(modifier: Modifier = Modifier) {
 
         }
         var move by remember {
-            mutableStateOf(true)
+            mutableStateOf(false)
         }
 
         val cameraTransition = rememberInfiniteTransition(label = "CameraTransition")
@@ -132,14 +141,17 @@ fun IslandScreen(modifier: Modifier = Modifier) {
             onFrame = {
                 centerNode.rotation = cameraRotation
                 cameraNode.lookAt(centerNode)
+                treeParent.position = treePos.toFloatArray().toPosition()
             },
             onTouchEvent = { _, hitResult ->
                 hitResult?.let {
                     if (!move) return@let
-                    treeParent.position = Position(
-                        x = hitResult.worldPosition.x ,
-                        y = hitResult.worldPosition.y,
-                        z = hitResult.worldPosition.z
+                    viewModel.moveTree(
+                        Float3(
+                            x = hitResult.worldPosition.x,
+                            y = hitResult.worldPosition.y,
+                            z = hitResult.worldPosition.z
+                        )
                     )
                     Log.d("A", hitResult.distance.toString())
                 }

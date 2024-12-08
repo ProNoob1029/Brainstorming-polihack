@@ -23,6 +23,15 @@ interface AppDao {
     @Delete
     fun deleteGoodApp(app: GoodApp)
 
+    @Query("Select * FROM Tree WHERE name = :name")
+    fun getTree(name: String): Tree?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertTree(tree: Tree)
+
+    @Delete
+    fun deleteTree(tree: Tree)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBadApp(app: BadApp)
 
