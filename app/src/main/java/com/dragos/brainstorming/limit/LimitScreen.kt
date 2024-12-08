@@ -153,8 +153,10 @@ fun LimitScreen(
                         .padding(vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "${it.appName}: ${it.appTime / 1000 / 60} minutes today")
-                    Spacer(Modifier.weight(1f))
+                    Text(
+                        text = "${it.appName}: ${it.appTime / 1000 / 60} minutes today",
+                        modifier = Modifier.weight(1f)
+                    )
                     IconButton(
                         onClick = {
                             addLimitApp(it)

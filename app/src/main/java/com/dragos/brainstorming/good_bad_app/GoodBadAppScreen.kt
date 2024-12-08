@@ -83,7 +83,7 @@ fun GoodBadAppScreen(
                     .padding(vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "${it.appName}: ${it.appTime / 1000 / 60}")
+                Text(text = it.appName)
                 Spacer(Modifier.weight(1f))
                 IconButton(
                     onClick = {
@@ -108,7 +108,7 @@ fun GoodBadAppScreen(
 
         item {
             Text(
-                "Bad App List: ${badAppList.size}",
+                "Bad Apps: ${badAppList.size}",
                 style = MaterialTheme.typography.headlineLarge,
                 modifier = Modifier
                     .padding(vertical = 10.dp)
@@ -124,7 +124,7 @@ fun GoodBadAppScreen(
                         .padding(vertical = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "${it.appName}: ${it.appTime / 1000 / 60}")
+                    Text(text = it.appName)
 
                     Spacer(Modifier.weight(1f))
                     IconButton(
@@ -164,7 +164,7 @@ fun GoodBadAppScreen(
                         .padding(vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "${it.appName}: ${it.appTime / 1000 / 60}")
+                    Text(text = it.appName)
                     Spacer(Modifier.weight(1f))
                     IconButton(
                         onClick = {
