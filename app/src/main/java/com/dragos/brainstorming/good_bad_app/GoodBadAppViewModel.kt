@@ -1,8 +1,9 @@
-package com.dragos.brainstorming.main_screen
+package com.dragos.brainstorming.good_bad_app
 
 import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dragos.brainstorming.AppInfo
 import com.dragos.brainstorming.MainApplication
 import com.dragos.brainstorming.database.BadApp
 import com.dragos.brainstorming.database.GoodApp
@@ -15,7 +16,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
+class GoodBadAppViewModel : ViewModel() {
     private val fullAppList = getAppList()
 
     val goodAppList = MutableStateFlow(listOf<AppInfo>())

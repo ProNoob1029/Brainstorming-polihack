@@ -1,16 +1,15 @@
-package com.dragos.brainstorming.main_screen
+package com.dragos.brainstorming.limit
 
 import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.dragos.brainstorming.AppInfo
 import com.dragos.brainstorming.MainApplication
 import com.dragos.brainstorming.database.SetLimit
 import com.dragos.brainstorming.monitor.getDailyStats
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update

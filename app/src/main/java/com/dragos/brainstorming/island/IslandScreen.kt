@@ -21,7 +21,6 @@ import io.github.sceneview.Scene
 import io.github.sceneview.animation.Transition.animateRotation
 import io.github.sceneview.gesture.orbitHomePosition
 import io.github.sceneview.gesture.targetPosition
-import io.github.sceneview.math.Direction
 import io.github.sceneview.math.Position
 import io.github.sceneview.math.Rotation
 import io.github.sceneview.node.ModelNode
@@ -36,7 +35,7 @@ import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit.MILLISECONDS
 
 @Composable
-fun Island(modifier: Modifier = Modifier) {
+fun IslandScreen(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier.fillMaxSize()
     ) {

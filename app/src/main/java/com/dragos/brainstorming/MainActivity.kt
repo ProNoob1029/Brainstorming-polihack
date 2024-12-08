@@ -1,4 +1,4 @@
-package com.dragos.brainstorming.main_screen
+package com.dragos.brainstorming
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
+import com.dragos.brainstorming.limit.LimitScreen
 import com.dragos.brainstorming.ui.theme.BrainstormingTheme
 
 class MainActivity : ComponentActivity()  {
@@ -25,10 +26,7 @@ class MainActivity : ComponentActivity()  {
         setContent {
             BrainstormingTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    /*MainScreen(
-                        modifier = Modifier.padding(innerPadding)
-                    )*/
-                    MyLimit(
+                    Navigation(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }

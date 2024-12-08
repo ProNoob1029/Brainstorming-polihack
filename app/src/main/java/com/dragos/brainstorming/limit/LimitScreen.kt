@@ -1,4 +1,4 @@
-package com.dragos.brainstorming.main_screen
+package com.dragos.brainstorming.limit
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -12,9 +12,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,135 +29,61 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.dragos.brainstorming.AppInfo
 import com.dragos.brainstorming.MainApplication
 import com.dragos.brainstorming.R
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 
 
 @Composable
-fun MainScreen(
+fun LimitScreen(
     modifier: Modifier = Modifier,
-    viewModel: MainViewModel = viewModel()
+    viewModel: LimitViewModel = viewModel()
 ) {
-    val goodAppList by viewModel.goodAppList.collectAsStateWithLifecycle()
-    val badAppList by viewModel.badAppList.collectAsStateWithLifecycle()
-    val appList by viewModel.appList.collectAsStateWithLifecycle()
+    val limitApps by viewModel.limitApps.collectAsStateWithLifecycle()
+    val remainingApps by viewModel.remainingApps.collectAsStateWithLifecycle()
 
-    MainScreen(
+
+    LimitScreen(
         modifier = modifier,
-        goodAppList = goodAppList,
-        badAppList = badAppList,
-        appList = appList,
-        goodAppClick = viewModel::goodAppClick,
-        badAppClick = viewModel::badAppClick,
-        removeClick = viewModel::removeAppClick
+        limitApps = limitApps,
+        remainingApps = remainingApps,
+        addLimitApp = viewModel::addLimitApp,
+        removeLimitApp = viewModel::removeLimitApp,
+        addMinutes = viewModel::addMinutes,
+        removeMinutes = viewModel::removeMinutes
     )
 }
 
+
 @Composable
-fun MainScreen(
+fun LimitScreen(
     modifier: Modifier = Modifier,
-    goodAppList: List<AppInfo>,
-    badAppList: List<AppInfo>,
-    appList: List<AppInfo>,
-    goodAppClick: (AppInfo) -> Unit,
-    badAppClick: (AppInfo) -> Unit,
-    removeClick: (AppInfo) -> Unit
+    limitApps: List<AppInfo>,
+    addLimitApp: (AppInfo) -> Unit,
+    removeLimitApp: (AppInfo) -> Unit,
+    remainingApps: List<AppInfo>,
+    addMinutes: (AppInfo) -> Unit,
+    removeMinutes: (AppInfo) -> Unit
 ) {
+
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         item {
             Text(
-                "Good Apps: ${goodAppList.size}",
+                "Apps to set limit: ${limitApps.size}",
                 style = MaterialTheme.typography.headlineLarge,
                 modifier = Modifier
                     .padding(vertical = 10.dp)
             )
         }
 
-        items(goodAppList) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = "${it.appName}: ${it.appTime / 1000 / 60}")
-                Spacer(Modifier.weight(1f))
-                IconButton(
-                    onClick = {
-                        removeClick(it)
-                    }
-                ) {
-                    Icon(Icons.Default.Clear, "clear")
-                }
-                Image(
-                    modifier = Modifier
-                        .size(60.dp)
-                        .fillMaxSize(),
-                    painter = rememberDrawablePainter(
-                        MainApplication.packageManager.getApplicationIcon(
-                            it.packageName
-                        )
-                    ),
-                    contentDescription = ""
-                )
-            }
-        }
-
-        item {
-            Text(
-                "Bad App List: ${badAppList.size}",
-                style = MaterialTheme.typography.headlineLarge,
-                modifier = Modifier
-                    .padding(vertical = 10.dp)
-            )
-
-        }
-
-        items(badAppList) {
-            Column {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(text = "${it.appName}: ${it.appTime / 1000 / 60}")
-
-                    Spacer(Modifier.weight(1f))
-                    IconButton(
-                        onClick = {
-                            removeClick(it)
-                        }
-                    ) {
-                        Icon(Icons.Default.Clear, "clear")
-                    }
-                    Image(
-                        modifier = Modifier
-                            .size(60.dp)
-                            .fillMaxSize(),
-                        painter = rememberDrawablePainter(MainApplication.packageManager.getApplicationIcon(it.packageName)),
-                        contentDescription = ""
-                    )
-                }
-                HorizontalDivider()
-            }
-
-        }
-
-        item {
-            Text(
-                "All Apps: ${appList.size}",
-                style = MaterialTheme.typography.headlineLarge,
-                modifier = Modifier
-                    .padding(vertical = 10.dp)
-            )
-        }
-
-        items(appList) {
+        items(limitApps)
+        {
             Column {
                 Row(
                     modifier = Modifier
@@ -164,27 +91,86 @@ fun MainScreen(
                         .padding(vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "${it.appName}: ${it.appTime / 1000 / 60}")
+                    Text(
+                        text = "${it.appName} limit: ${it.timeLimit}",
+                        modifier = Modifier.weight(1f)
+                    )
+
+                    FilledIconButton(
+                        onClick = {
+                            removeMinutes(it)
+                        }
+                    ) {
+                        Icon(painterResource(R.drawable.remove_24px), "remove")
+                    }
+
+                    FilledIconButton(
+                        onClick = {
+                            addMinutes(it)
+                        }
+                    ) {
+                        Icon(Icons.Default.Add, "add")
+                    }
+
+                    IconButton(
+                        onClick = {
+                            removeLimitApp(it)
+                        }
+                    ) {
+                        Icon(Icons.Default.Clear, "clear")
+                    }
+                    Image(
+                        modifier = Modifier
+                            .size(60.dp),
+                        painter = rememberDrawablePainter(
+                            MainApplication.packageManager.getApplicationIcon(
+                                it.packageName
+                            )
+                        ),
+                        contentDescription = ""
+                    )
+
+                }
+                HorizontalDivider()
+            }
+        }
+
+        item {
+            Text(
+                "Total apps:",
+                style = MaterialTheme.typography.headlineLarge,
+                modifier = Modifier
+                    .padding(vertical = 10.dp)
+            )
+        }
+
+        items(remainingApps)
+        {
+            Column {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(text = "${it.appName}: ${it.appTime / 1000 / 60} minutes today")
                     Spacer(Modifier.weight(1f))
                     IconButton(
                         onClick = {
-                            goodAppClick(it)
+                            addLimitApp(it)
                         }
                     ) {
                         Icon(Icons.Default.ThumbUp, "add")
-                    }
-                    IconButton(
-                        onClick = {
-                            badAppClick(it)
-                        }
-                    ) {
-                        Icon(painterResource(R.drawable.thumb_down_24px), "thumbs down")
                     }
                     Image(
                         modifier = Modifier
                             .size(60.dp)
                             .fillMaxSize(),
-                        painter = rememberDrawablePainter(MainApplication.packageManager.getApplicationIcon(it.packageName)),
+                        painter = rememberDrawablePainter(
+                            MainApplication.packageManager.getApplicationIcon(
+                                it.packageName
+                            )
+                        ),
                         contentDescription = ""
                     )
 
@@ -194,7 +180,3 @@ fun MainScreen(
         }
     }
 }
-
-
-
-

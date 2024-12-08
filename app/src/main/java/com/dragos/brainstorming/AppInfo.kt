@@ -1,4 +1,4 @@
-package com.dragos.brainstorming.main_screen
+package com.dragos.brainstorming
 
 data class AppInfo(
     val appTime: Long,
