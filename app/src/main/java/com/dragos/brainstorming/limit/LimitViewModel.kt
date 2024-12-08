@@ -93,7 +93,7 @@ class LimitViewModel : ViewModel() {
     }
 
     fun removeMinutes(app: AppInfo) {
-        val newApp = app.copy(timeLimit = (app.timeLimit - 5).coerceAtLeast(0))
+        val newApp = app.copy(timeLimit = (app.timeLimit - 5).coerceAtLeast(5))
         fullAppList.replaceAll {
             if (it.packageName == newApp.packageName) {
                 newApp
@@ -143,5 +143,5 @@ class LimitViewModel : ViewModel() {
                 appName = rezolveInfo.loadLabel(MainApplication.packageManager).toString(),
                 packageName = rezolveInfo.activityInfo.packageName
             )
-        }.sortedBy { it.appName }.toMutableList()
+        }.sortedBy { it.appName }.toMutableList().apply { removeAll { it.packageName == "com.dragos.brainstorming" } }
 }

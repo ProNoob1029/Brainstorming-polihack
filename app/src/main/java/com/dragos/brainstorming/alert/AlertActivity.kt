@@ -49,7 +49,7 @@ class AlertActivity : ComponentActivity() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = "NU MAI STA PE ",
+                            text = "TIME LIMIT EXCEEDED",
                             style = MaterialTheme.typography.headlineLarge.copy(
                                 fontWeight = FontWeight.Black
                             )

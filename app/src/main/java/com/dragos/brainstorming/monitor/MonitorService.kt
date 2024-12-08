@@ -9,33 +9,50 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
+import com.dragos.brainstorming.AppInfo
+import com.dragos.brainstorming.MainApplication
 import com.dragos.brainstorming.alert.AlertActivity
+import com.dragos.brainstorming.database.BadApp
+import com.dragos.brainstorming.database.SetLimit
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 
 class MonitorService: AccessibilityService() {
     private lateinit var usageStatsManager: UsageStatsManager
-    private val appPackageName = "com.instagram.android"
+
+    private val dbJob = Job()
+    private val scope = CoroutineScope(Dispatchers.IO + dbJob)
+    private var limitList = listOf<SetLimit>()
 
     private var firstEvent = true
 
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
-        if (event.packageName == appPackageName) {
+        limitList.firstOrNull { it.packageName == event.packageName }?.let {  limitApp ->
+            val timeLimit = getDailyStats(usageStatsManager).firstOrNull { it.packageName == limitApp.packageName }?.totalTime ?: 0
+            if (timeLimit < limitApp.minuteLimit * 60 * 1000) {
+                firstEvent = true
+                return
+            }
             if (!firstEvent) return
             firstEvent = false
 
-            val stat = getDailyStats(usageStatsManager).first { it.packageName == appPackageName }
-
-            Log.d("Current App", "insta usage: ${stat.totalTime / (1000 * 60)}")
-
             val intent = Intent(this, AlertActivity::class.java)
                 .setFlags(FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
 
-            Handler(Looper.getMainLooper()).postDelayed({
-                startActivity(intent)
-            }, 1000)
-        } else {
-            firstEvent = true
+            /*Handler(Looper.getMainLooper()).postDelayed({
+
+            }, 1000)*/
         }
+        firstEvent = true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        dbJob.cancel()
     }
 
     override fun onServiceConnected() {
@@ -45,6 +62,11 @@ class MonitorService: AccessibilityService() {
     override fun onCreate() {
         super.onCreate()
         usageStatsManager = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+        scope.launch {
+            MainApplication.database.appDao().getSetLimitFlow().collect {
+                limitList = it
+            }
+        }
     }
 
     override fun onInterrupt() {}

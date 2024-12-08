@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AppDao {
@@ -16,6 +17,9 @@ interface AppDao {
 
     @Query("Select * FROM setlimit")
     fun getSetLimit(): List<SetLimit>
+
+    @Query("Select * FROM setlimit")
+    fun getSetLimitFlow(): Flow<List<SetLimit>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertGoodApp(app: GoodApp)
