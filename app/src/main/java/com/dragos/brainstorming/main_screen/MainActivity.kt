@@ -25,12 +25,12 @@ class MainActivity : ComponentActivity()  {
         setContent {
             BrainstormingTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(
+                    /*MainScreen(
+                        modifier = Modifier.padding(innerPadding)
+                    )*/
+                    MyLimit(
                         modifier = Modifier.padding(innerPadding)
                     )
-                    /*MyLimit(
-                        modifier = Modifier.padding((innerPadding))
-                    )*/
                 }
             }
         }

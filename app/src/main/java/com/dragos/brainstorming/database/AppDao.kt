@@ -3,6 +3,7 @@ package com.dragos.brainstorming.database
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
@@ -16,19 +17,19 @@ interface AppDao {
     @Query("Select * FROM setlimit")
     fun getSetLimit(): List<SetLimit>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertGoodApp(app: GoodApp)
 
     @Delete
     fun deleteGoodApp(app: GoodApp)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertBadApp(app: BadApp)
 
     @Delete
     fun deleteBadApp(app: BadApp)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSetLimit(app: SetLimit)
 
     @Delete
