@@ -63,9 +63,9 @@ fun getDailyStats(usageManager: UsageStatsManager, date: LocalDate = LocalDate.n
             // If there's an end time with no start time, this might mean that
             //  The app was started on the previous day, so take midnight
             //  As the start time
-            if (startTime == 0L && endTime != 0L) {
+            /*if (startTime == 0L && endTime != 0L) {
                 startTime = start
-            }
+            }*/
 
             // If both start and end are defined, we have a session
             if (startTime != 0L && endTime != 0L) {
@@ -77,9 +77,9 @@ fun getDailyStats(usageManager: UsageStatsManager, date: LocalDate = LocalDate.n
             }
         }
 
-        if (startTime != 0L) {
+        /*if (startTime != 0L) {
             totalTime += System.currentTimeMillis() - startTime
-        }
+        }*/
         stats.add(Stat(packageName, totalTime/*, startTimes*/))
     }
     return stats
